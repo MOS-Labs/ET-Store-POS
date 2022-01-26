@@ -53,7 +53,7 @@ namespace ETStore
             {
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                Console.WriteLine("Bismillah");
             }
         }
 
