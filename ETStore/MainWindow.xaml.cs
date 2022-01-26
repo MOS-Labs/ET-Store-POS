@@ -29,6 +29,7 @@ namespace ETStore
         public MainWindow()
         {
             InitializeComponent();
+            Console.WriteLine("Bismillah Test 2");
             
             
 
