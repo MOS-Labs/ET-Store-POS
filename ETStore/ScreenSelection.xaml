@@ -1,0 +1,15 @@
+﻿<Window x:Class="ETStore.ScreenSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ETStore"
+        mc:Ignorable="d"
+        Title="ScreenSelection" Height="198" Width="300" ResizeMode="NoResize">
+    <Grid>
+        <Button x:Name="btnAdmin" Content="Admin" HorizontalAlignment="Center" Margin="0,1,-0.4,0" VerticalAlignment="Top" Width="294" Height="54" HorizontalContentAlignment="Center" TabIndex="0" FontFamily="Segoe UI Semibold" FontSize="16" Background="#FF4CE5F4" Click="BtnAdmin_Click" KeyDown="BtnAdmin_KeyDown"/>
+        <Button x:Name="btnInventory" Content="Inventory" HorizontalAlignment="Center" Margin="0,56,-0.4,0" VerticalAlignment="Top" Width="294" Height="54" HorizontalContentAlignment="Center" Background="#FF4C81F4" FontFamily="Segoe UI Semibold" FontSize="16" TabIndex="1"/>
+        <Button x:Name="btnPOS" Content="POS" HorizontalAlignment="Center" Margin="0,111,-0.4,5.8" Width="294" HorizontalContentAlignment="Center" TabIndex="2" Background="#FF964CF4" FontFamily="Segoe UI Semibold" FontSize="16"/>
+
+    </Grid>
+</Window>
