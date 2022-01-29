@@ -191,7 +191,12 @@ namespace ETStore
                 throw;
             }
         }
-        
+
+        private void btnTemp_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.WHLocation whl = new Forms.WHLocation();
+            whl.Show();
+        }
     }
 }
 

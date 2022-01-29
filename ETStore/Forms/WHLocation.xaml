@@ -1,0 +1,46 @@
+﻿<Window x:Class="ETStore.Forms.WHLocation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ETStore.Forms"
+        mc:Ignorable="d"
+        Title="WHLocation" Height="450" Width="800">
+    <Grid>
+        <Label Content="Warehouse ID" HorizontalAlignment="Left" Margin="57,63,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.396,-0.445"/>
+        <Label Content="Warehouse Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="57,94,0,0"/>
+        <Label Content="Warehouse Address" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="57,125,0,0" RenderTransformOrigin="0.442,-2.094"/>
+        <Label Content="Floor" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="57,184,0,0"/>
+        <Label Content="Stoage Room" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="57,215,0,0"/>
+        <Label Content="Aisle" HorizontalAlignment="Left" Margin="57,249,0,0" VerticalAlignment="Top"/>
+        <Label Content="Shelf" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="57,280,0,0"/>
+        <Label Content="Custom Location" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="57,308,0,0"/>
+        <TextBox x:Name="txtWarehouseID" HorizontalAlignment="Left" Height="23" Margin="214,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtWarehouseID_LostFocus"/>
+        <TextBox x:Name="txtWarehouseName" HorizontalAlignment="Left" Height="23" Margin="214,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+        <TextBox x:Name="txtWarehouseAddress" HorizontalAlignment="Left" Height="47" Margin="214,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+        <ComboBox x:Name="cmbFloor" HorizontalAlignment="Left" Margin="214,188,0,0" VerticalAlignment="Top" Width="189">
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="2"/>
+            <ComboBoxItem Content="3"/>
+        </ComboBox>
+        <TextBox x:Name="txtCustomLocation" HorizontalAlignment="Left" Height="23" Margin="214,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+        <Label x:Name="lblWHRetrieval" Content="Please enter Warehouse ID" HorizontalAlignment="Left" Margin="408,63,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnSave" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="214,359,0,0" Click="BtnSave_Click"/>
+        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Margin="317,359,0,0"/>
+        <ComboBox x:Name="cmbStorageRoom" HorizontalAlignment="Left" Margin="214,219,0,0" VerticalAlignment="Top" Width="189">
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="2"/>
+            <ComboBoxItem Content="3"/>
+        </ComboBox>
+        <ComboBox x:Name="cmbAisle" HorizontalAlignment="Left" Margin="214,249,0,0" VerticalAlignment="Top" Width="189">
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="2"/>
+            <ComboBoxItem Content="3"/>
+        </ComboBox>
+        <ComboBox x:Name="cmbShelf" HorizontalAlignment="Left" Margin="214,280,0,0" VerticalAlignment="Top" Width="189">
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="2"/>
+            <ComboBoxItem Content="3"/>
+        </ComboBox>
+    </Grid>
+</Window>
