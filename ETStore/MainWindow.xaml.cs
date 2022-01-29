@@ -49,6 +49,7 @@ namespace ETStore
 
             catch (Exception Msg)
             {
+                clearTextboxes();
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
                 
@@ -68,6 +69,7 @@ namespace ETStore
 
                 catch (Exception Msg)
                 {
+                    clearTextboxes();
                     string strExpMsg = Msg.Message;
                     MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -84,6 +86,7 @@ namespace ETStore
 
             catch (Exception Msg)
             {
+                clearTextboxes();
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -98,7 +101,7 @@ namespace ETStore
             try
             {
               string  strUserID = txtUserID.Text.ToString();
-                return strUserID;
+              return strUserID;
 
             }
             catch (Exception)
@@ -114,7 +117,7 @@ namespace ETStore
             try
             {
               string  strPassword = pwdbxPassword.Password.ToString();
-                return strPassword;
+              return strPassword;
 
             }
             catch (Exception)
@@ -157,7 +160,7 @@ namespace ETStore
                         intAttempts += 1;
                         if (intAttempts > 3)
                         {
-                            LockAccountInSQL.LockAccount(strUserID);
+                            ExecuteStoredProcedure.LockAccount(strUserID);
                             errorID = 9;
                         }
                         
@@ -179,6 +182,7 @@ namespace ETStore
 
                 if (errorID != 0)
                 {
+                    clearTextboxes();
                     strErrorMsg = ExceptionMessagesList.ErrorMessages(errorID);
                     lblErrorMessage.Content = strErrorMsg.ToString();
                 }
@@ -190,6 +194,11 @@ namespace ETStore
             }
         }
 
+        private void clearTextboxes()
+        {
+            txtUserID.Clear();
+            pwdbxPassword.Clear();
+        }
         private void BtnTemp_Click(object sender, RoutedEventArgs e)
         {
             Forms.WHLocation whl = new Forms.WHLocation();

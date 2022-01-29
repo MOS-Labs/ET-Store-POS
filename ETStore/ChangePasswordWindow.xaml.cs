@@ -35,6 +35,7 @@ namespace ETStore
 
             catch (Exception Msg)
             {
+                clearTextboxes();
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -51,6 +52,7 @@ namespace ETStore
 
             catch (Exception Msg)
             {
+                clearTextboxes();
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
 
@@ -129,7 +131,7 @@ namespace ETStore
                 string strConfirmPassword = ConfirmPassword();
                 DateTime dtExpiryDate = DateTime.Today.AddDays(30);
 
-                if (String.IsNullOrEmpty(strOldPassword) || String.IsNullOrEmpty(strOldPassword) || String.IsNullOrEmpty(strConfirmPassword))
+                if (String.IsNullOrEmpty(strOldPassword) || String.IsNullOrEmpty(strNewPassword) || String.IsNullOrEmpty(strConfirmPassword))
                 {
                     errorID = 8;
                 }
@@ -150,7 +152,7 @@ namespace ETStore
                     }
                     else
                     {
-                        bool blPasswordChangeSuccess = ChangePasswordInSQL.ChangePassword(strUserID, strNewPassword, dtExpiryDate);
+                        bool blPasswordChangeSuccess =new ExecuteStoredProcedure().ChangePassword(strUserID, strNewPassword, dtExpiryDate);
                         if (blPasswordChangeSuccess)
                         {
                             Console.WriteLine("Password Changed Successfully");
@@ -165,7 +167,8 @@ namespace ETStore
                 }
                 if (errorID != 0)
                 {
-                  string  strErrorMsg = ExceptionMessagesList.ErrorMessages(errorID);
+                    clearTextboxes();
+                    string  strErrorMsg = ExceptionMessagesList.ErrorMessages(errorID);
                     lblErrorMsg.Content = strErrorMsg.ToString();
                 }
 
@@ -192,11 +195,19 @@ namespace ETStore
 
                 catch (Exception Msg)
                 {
+                    clearTextboxes();
                     string strExpMsg = Msg.Message;
                     MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
 
+        }
+
+        private void clearTextboxes()
+        {
+            pwdOldPWD.Clear();
+            pwdNewPWD.Clear();
+            pwdConfirmPWD.Clear();
         }
     }
     }
