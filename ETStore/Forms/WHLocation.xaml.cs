@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ETStore.Classes;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +51,30 @@ namespace ETStore.Forms
             string WHLocation = "";
             WHLocation += "FLR" + cmbFloor.Text + "; SROOM" + cmbStorageRoom.Text + "; AIS" + cmbAisle.Text + "; ";
             MessageBox.Show(WHLocation);
+        }
+
+        private void BtnRetrieve_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void retrieveWHLocationDetails()
+        {
+            string UserID = "Admin", Password = "Test";
+            DataTable dtSQLResult = new DataTable();
+            dtSQLResult = GetWHLocationDetails.GetWHLocationDetailsFromSQL(UserID, Password);
+
+            if (dtSQLResult.Rows.Count >= 1)
+            {
+                DataRow drSQLLoginResult = dtSQLResult.Rows[0];
+
+
+            }
+            else
+            {
+                Console.WriteLine("# Rows = 0");
+            }
+
         }
     }
 

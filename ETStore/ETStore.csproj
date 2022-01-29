@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Classes\ChangePasswordInSQL.cs" />
     <Compile Include="Classes\CheckAccountLockedInSQL.cs" />
+    <Compile Include="Classes\GetWHLocationDetails.cs" />
     <Compile Include="Classes\GetCredentialsSQLCommand.cs" />
     <Compile Include="Classes\LockAccountInSQL.cs" />
     <Compile Include="Classes\ValidateCredentialsInSQL.cs" />
