@@ -9,19 +9,21 @@ namespace ETStore
 {
     class SetupSQLConnection
     {
-               
-      public static SqlConnection ConnectionValue
+        
+        public static SqlConnection ConnectionValue
         {
 
+        
 
-
-
-            get
+        get
             {
                 try
 
                 {
-                    SqlConnection myConnection = new SqlConnection("user id=aejea;server=LAPTOP-GTJ68FPT;Trusted_Connection=yes;database=ET_Stores;connection timeout=10");
+                    string userID = System.Configuration.ConfigurationManager.AppSettings["SQLUserID"];
+                    string serverID = System.Configuration.ConfigurationManager.AppSettings["SQLServer"];
+                    string database = System.Configuration.ConfigurationManager.AppSettings["SQLDataBase"];
+                    SqlConnection myConnection = new SqlConnection($"user id={userID};server={serverID};Trusted_Connection=yes;database={database};connection timeout=10");
                     return myConnection;
                 }
 
@@ -33,6 +35,7 @@ namespace ETStore
                 }
             }
 
+           
         }
     }
 }

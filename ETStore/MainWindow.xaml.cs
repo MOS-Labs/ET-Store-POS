@@ -29,8 +29,7 @@ namespace ETStore
         public MainWindow()
         {
             InitializeComponent();
-            Console.WriteLine("Bismillah Test 2");
-            
+                      
             
 
         }
@@ -53,7 +52,7 @@ namespace ETStore
             {
                 string strExpMsg = Msg.Message;
                 MessageBox.Show(strExpMsg, "Error Message", MessageBoxButton.OK, MessageBoxImage.Error);
-                Console.WriteLine("Bismillah");
+                
             }
         }
 
@@ -136,7 +135,7 @@ namespace ETStore
             {
               string  strUserID = UserIDInput();
               string  strPassword = PasswordInput();
-               lblErrorMessage.Content = String.Empty;
+              lblErrorMessage.Content = String.Empty;
                 
 
                 errorID = CredInputValidation.CredInputVal(strUserID, strPassword);
