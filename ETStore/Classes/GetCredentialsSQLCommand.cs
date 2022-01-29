@@ -23,8 +23,10 @@ namespace ETStore.Classes
                 SqlConnection myConnection = SetupSQLConnection.ConnectionValue;
                 myConnection.Open();
                 DataTable dtSQLLoginResult = new DataTable();
-                SqlCommand myCommand = new SqlCommand("GetCredentials", myConnection);
-                myCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlCommand myCommand = new SqlCommand("GetCredentials", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
                 myCommand.Parameters.Add("@UserID", SqlDbType.VarChar).Value = UserID;
                 myCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
                 SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);

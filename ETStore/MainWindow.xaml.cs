@@ -29,9 +29,8 @@ namespace ETStore
         public MainWindow()
         {
             InitializeComponent();
-                      
-            
 
+            
         }
 
         
@@ -191,7 +190,7 @@ namespace ETStore
             }
         }
 
-        private void btnTemp_Click(object sender, RoutedEventArgs e)
+        private void BtnTemp_Click(object sender, RoutedEventArgs e)
         {
             Forms.WHLocation whl = new Forms.WHLocation();
             whl.Show();

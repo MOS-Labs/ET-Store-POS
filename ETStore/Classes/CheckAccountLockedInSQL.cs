@@ -23,8 +23,10 @@ namespace ETStore.Classes
                 SqlConnection myConnection = SetupSQLConnection.ConnectionValue;
                 myConnection.Open();
                 DataTable dtSQLLoginResult = new DataTable();
-                SqlCommand myCommand = new SqlCommand("CheckAccountStatus", myConnection);
-                myCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                SqlCommand myCommand = new SqlCommand("CheckAccountStatus", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
                 myCommand.Parameters.Add("@UserID", SqlDbType.VarChar).Value = UserID;
                 SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);
                 daSQLLoginResult.Fill(dtSQLLoginResult);

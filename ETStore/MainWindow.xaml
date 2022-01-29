@@ -24,7 +24,7 @@
         <PasswordBox x:Name="pwdbxPassword" HorizontalAlignment="Left" Margin="332,302,0,0" VerticalAlignment="Top" Width="155" Height="33" TabIndex="1" KeyDown="PwdbxPassword_KeyDown" Grid.Column="2"/>
         <Button x:Name="btnLogin" Content="Login" HorizontalAlignment="Left" Margin="532,302,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="3" Click="BtnLogin_Click" KeyDown="BtnLogin_KeyDown" Grid.Column="2"/>
         <Label x:Name="lblErrorMessage" Content="" HorizontalAlignment="Left" Margin="122,360,0,0" VerticalAlignment="Top" Width="517" Height="50" FontSize="16" FontFamily="Tahoma" Foreground="#FFEE2323" Grid.Column="2"/>
-        <Button x:Name="btnTemp" Content="Temp" HorizontalAlignment="Left" Margin="532,248,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="3" Grid.Column="2" Click="btnTemp_Click"/>
+        <Button x:Name="btnTemp" Content="Temp" HorizontalAlignment="Left" Margin="532,248,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="3" Grid.Column="2" Click="BtnTemp_Click"/>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="63*"/>
