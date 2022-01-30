@@ -9,7 +9,7 @@ using System.Data;
 using System.Globalization;
 using ETStore.Classes;
 
-
+// THIS CLASS IS NOT USED // TO BE DELETED
 
 namespace ETStore.Classes
 {

@@ -20,32 +20,19 @@ namespace ETStore
 
             {
 
-                string strValidationStatus;
-                string strExpiryDate;
-                string strAccessTypeID;
-                /*SqlConnection myConnection = SetupSQLConnection.ConnectionValue;
-                myConnection.Open();
-                DataTable dtSQLLoginResult = new DataTable();
-                SqlCommand myCommand = new SqlCommand("GetCredentials", myConnection);
-                myCommand.CommandType = System.Data.CommandType.StoredProcedure;
-                myCommand.Parameters.Add("@UserID", SqlDbType.VarChar).Value = UserID;
-                myCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = Password;
-                SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);
-                daSQLLoginResult.Fill(dtSQLLoginResult);
-                daSQLLoginResult.Dispose();
-                myConnection.Close();
-                Console.WriteLine(dtSQLLoginResult.Rows.Count.ToString());
-                */
+                string strValidationStatus = string.Empty;
+                string strExpiryDate = string.Empty; 
+                string strAccessTypeID = string.Empty; 
 
                 DataTable dtSQLLoginResult = new DataTable();
-                dtSQLLoginResult = GetCredentialsSQLCommand.GetCredentialsSPCommand(UserID, Password);
+                dtSQLLoginResult =new ExecuteStoredProcedure().GetCredentialsSPCommand(UserID, Password);
 
                 if (dtSQLLoginResult.Rows.Count >= 1)
                 {
                     DataRow drSQLLoginResult = dtSQLLoginResult.Rows[0];
                     strExpiryDate = drSQLLoginResult["ExpiryDate"].ToString();
                     strAccessTypeID = drSQLLoginResult["AccessTypeID"].ToString();
-                    Console.WriteLine(strExpiryDate);
+                    Console.WriteLine($"Expiry Date :{strExpiryDate}");
                     DateTime dtExpiryDate = Convert.ToDateTime(strExpiryDate);
                     Console.WriteLine(dtExpiryDate.ToShortDateString());
                     if (DateTime.Today.Date >= dtExpiryDate.Date)
@@ -74,15 +61,21 @@ namespace ETStore
                 else
                 {
                     Console.WriteLine("Validation Failed");
-                    bool blAccountLocked = CheckAccountLockedInSQL.CheckAccountLocked(UserID);
-                    if (blAccountLocked)
+                    dtSQLLoginResult =new ExecuteStoredProcedure().CheckAccountLocked(UserID);
+
+                    if (dtSQLLoginResult.Rows.Count >= 1)
                     {
+                        Console.WriteLine("Account Locked");
                         strValidationStatus = "AccountLocked";
+
                     }
                     else
                     {
+                        Console.WriteLine("Account Active");
                         strValidationStatus = "ValidationFailed";
                     }
+
+                    
                     
                 }
 
