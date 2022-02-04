@@ -132,37 +132,70 @@ namespace ETStore.Classes
                 daSQLLoginResult.Fill(dtSQLLoginResult);
                 daSQLLoginResult.Dispose();
                 myConnection.Close();
-                Console.WriteLine($"Get Credentials Result Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
+                Console.WriteLine($"GetWHLocationDetails Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
 
                 return dtSQLLoginResult;
             }
             catch (Exception e)
             {
                 MessageBox.Show("Err:ESP.GetWHLocationDetails()" + nl + e.Message);
+                MessageBox.Show("The attempt to retrieve location details for Warehouse ID: " + WHID + " might have failed. Please check with your system admin" + nl + e.Message,
+                "Error ESP23: DB Read", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
         }
-        public DataTable AddWHLocation(string UserID, string Password, int WHID)
+        public DataTable AddWHLocation(string UserID, string Password, int WHID, string Name, int StaffID)
         {
             try
             {
                 myConnection.Open();
-                SqlCommand myCommand = new SqlCommand("GetWHLocationDetails", myConnection)
+                SqlCommand myCommand = new SqlCommand("AddWHLocation", myConnection)
                 {
                     CommandType = System.Data.CommandType.StoredProcedure
                 };
                 myCommand.Parameters.Add("@WHID", SqlDbType.Int).Value = WHID;
+                myCommand.Parameters.Add("@Name", SqlDbType.VarChar).Value = Name;
+                myCommand.Parameters.Add("@StaffID", SqlDbType.Int).Value = StaffID;
                 SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);
                 daSQLLoginResult.Fill(dtSQLLoginResult);
                 daSQLLoginResult.Dispose();
                 myConnection.Close();
-                Console.WriteLine($"Get Credentials Result Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
+                Console.WriteLine($"AddWHLocation Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
 
                 return dtSQLLoginResult;
             }
             catch (Exception e)
             {
-                MessageBox.Show("Err:ESP.GetWHLocationDetails()" + nl + e.Message);
+                MessageBox.Show("The attempt to add location might have failed. Please retrieve again and check in 'Modify' tab to verify" + nl + e.Message,
+                "Error ESP24: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
+        }
+
+        public DataTable UpdateWHLocation(string UserID, string Password, int WHID, string name, int staffID, int status)
+        {
+            try
+            {
+                myConnection.Open();
+                SqlCommand myCommand = new SqlCommand("UpdateWHLocation", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                myCommand.Parameters.Add("@WHID", SqlDbType.Int).Value = WHID;
+                myCommand.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
+                myCommand.Parameters.Add("@StaffID", SqlDbType.Int).Value = staffID;
+                myCommand.Parameters.Add("@Status", SqlDbType.Int).Value = status;
+                SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);
+                daSQLLoginResult.Fill(dtSQLLoginResult);
+                daSQLLoginResult.Dispose();
+                myConnection.Close();
+                Console.WriteLine($"UpdateWHLocation Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
+                return dtSQLLoginResult;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The update to database might have failed. Please retrieve again and check in 'Modify' tab to verify" + nl + e.Message,
+                "Error ESP25: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
         }

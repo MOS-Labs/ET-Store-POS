@@ -67,6 +67,12 @@
     </Compile>
     <Compile Include="Classes\ExecuteStoredProcedure.cs" />
     <Compile Include="Classes\ValidateCredentialsInSQL.cs" />
+    <Compile Include="Forms\Temp.xaml.cs">
+      <DependentUpon>Temp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Testing.xaml.cs">
+      <DependentUpon>Testing.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\WHLocation.xaml.cs">
       <DependentUpon>WHLocation.xaml</DependentUpon>
     </Compile>
@@ -82,6 +88,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChangePasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Temp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Testing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

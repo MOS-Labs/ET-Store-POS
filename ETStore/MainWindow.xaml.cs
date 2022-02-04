@@ -22,7 +22,7 @@ namespace ETStore
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        int TempHardCodedStaffID = 1;
        
 
         
@@ -201,7 +201,8 @@ namespace ETStore
         }
         private void BtnTemp_Click(object sender, RoutedEventArgs e)
         {
-            Forms.WHLocation whl = new Forms.WHLocation();
+
+            Forms.WHLocation whl = new Forms.WHLocation(TempHardCodedStaffID);
             whl.Show();
         }
     }

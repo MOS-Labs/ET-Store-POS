@@ -23,11 +23,15 @@ namespace ETStore.Forms
     public partial class WHLocation : Window
     {
         string nl = Environment.NewLine;
+        int staffID;
         ExecuteStoredProcedure esp;
-        public WHLocation()
+        List<LocationDetails> locations;
+        public WHLocation(int ID)
         {
             InitializeComponent();
+            staffID = ID;
         }
+        //////////////////////// EVENTS
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             lblFloor.Visibility = Visibility.Hidden;
@@ -37,21 +41,224 @@ namespace ETStore.Forms
             BtnAdd.IsEnabled = false;
             BtnRetrieve.IsEnabled = false;
         }
-
-
-        private void txtWarehouseID_LostFocus(object sender, RoutedEventArgs e)
+        private void BtnRetrieve_Click(object sender, RoutedEventArgs e)
         {
             WHDetails wh = GetWHDetailsFromDB_Dummy(int.Parse(txtWarehouseID.Text));
             txtWarehouseName.Text = wh.WHName;
             txtWarehouseAddress.Text = wh.WHAddress;
+
+            int whid = 0;
+            try
+            {
+                if (txtWarehouseID.Text != "")
+                {
+                    whid = int.Parse(txtWarehouseID.Text);
+                    RetrieveWHLocationDetails(whid);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Unable to retrieve details for Warehouse ID: " + whid + nl,
+                "Error WHL01: Unable to retrieve", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void BtnSave_Click(object sender, RoutedEventArgs e)    {   UpdateWHLocationStatus();   }
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)     {   AddWHLocation();            }
+        private void BtnCancel_Click(object sender, RoutedEventArgs e) { this.Close(); }
+        private void cmbLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbLocations.Items.Count > 0)
+            {
+                if ((string)cmbLocations.SelectedItem != "")
+                {
+                    string nameWithStatus = cmbLocations.SelectedItem.ToString();
+                    string justName = nameWithStatus.Split('|')[0];
+                    justName = justName.Trim();
+                    int status = GetStatusFromList(justName);
+                    txt1.AppendText(nl + nameWithStatus + ", " + justName + ", " + status);
+                    if (status == 0) { chkStatus.IsChecked = true; }
+                    else { chkStatus.IsChecked = false; }
+                }
+                else { chkStatus.IsChecked = false; }
+            }
+            else { chkStatus.IsChecked = false; }
+        }
+        private void txtFloor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsValid(txtFloor.Text)) { lblFloor.Visibility = Visibility.Visible; }
+            else { lblFloor.Visibility = Visibility.Hidden; }
+            UpdateAddButtonStatus();
+        }
+        private void txtStorageRoom_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsValid(txtStorageRoom.Text)) { lblStorageRoom.Visibility = Visibility.Visible; }
+            else { lblStorageRoom.Visibility = Visibility.Hidden; }
+            UpdateAddButtonStatus();
+        }
+        private void txtAisle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsValid(txtAisle.Text)) { lblAisle.Visibility = Visibility.Visible; }
+            else { lblAisle.Visibility = Visibility.Hidden; }
+            UpdateAddButtonStatus();
+        }
+        private void txtShelf_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsValid(txtShelf.Text)) { lblShelf.Visibility = Visibility.Visible; }
+            else { lblShelf.Visibility = Visibility.Hidden; }
+            UpdateAddButtonStatus();
+        }
+        private void txtWarehouseID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (IsValid(txtWarehouseID.Text)) { BtnRetrieve.IsEnabled = true; }
+                else { BtnRetrieve.IsEnabled = false; }
+            }
+            catch (Exception err) { BtnRetrieve.IsEnabled = false; }
+        }
+        /// CALLS TO EXECUTE STORED PROCEDURE
+        public void RetrieveWHLocationDetails(int whid)
+        {
+            try
+            {
+                string strName, strStatus, strStatus2 = "";
+                locations = new List<LocationDetails>();
+                cmbLocations.Items.Clear();
+                esp = new ExecuteStoredProcedure();
+                string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
+                DataTable dtSQLResult = new DataTable();
+                dtSQLResult = esp.GetWHLocationDetails(UserID, Password, whid);
+                if (dtSQLResult.Rows.Count >= 1)
+                {
+                    foreach (DataRow d in dtSQLResult.Rows)
+                    {
+                        strName = d["Name"].ToString();
+                        strStatus = d["Status"].ToString();
+                        if (strStatus.Equals("0")) { strStatus2 = "Active"; }
+                        else if (strStatus.Equals("1")) { strStatus2 = "Inactive"; }
+                        locations.Add(new LocationDetails(whid, strName, int.Parse(strStatus)));
+                        cmbLocations.Items.Add(strName + " | " + strStatus2);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("# Rows = 0");
+                    MessageBox.Show("No details were found for Warehouse ID: " + whid + nl,
+                    "Error WHL03: No Location details", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Unable to retrieve details for Warehouse ID: " + whid + nl 
+                    + e.Message + nl + e.StackTrace + nl + e.Data + nl + e.Source,
+                "Error WHL02: Unable to retrieve", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void AddWHLocation()
+        {
+            int whid;
+            if(locations.Count == 0)   { whid = int.Parse(txtWarehouseID.Text);   }
+            else                    { whid = locations[0].WHID;      }
+            string WHLocationName = "W" + whid + "F" + txtFloor.Text;
+            WHLocationName += "SR" + txtStorageRoom.Text + "A" + txtAisle.Text + "SF" + txtShelf.Text;
+
+            if (SearchInLocationList(WHLocationName))
+            {
+                MessageBox.Show("Unable to add \"" + WHLocationName + "\" because a location with this name already exists." + nl
+                    + "Please check 'Modify' tab to see existing locations",
+                    "Error WHL05: Duplicate Location", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            esp = new ExecuteStoredProcedure();
+            string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
+            DataTable dtSQLResult = new DataTable();
+            dtSQLResult = esp.AddWHLocation(UserID, Password, int.Parse(txtWarehouseID.Text), WHLocationName, staffID);
+            // NEED TO ADD CODE TO VERIFY WHETHER WHLOCATION WAS ADDED SUCCESSFULLY
+        }
+        public void UpdateWHLocationStatus()
+        {
+            int statusFromChkBox;
+            string name = cmbLocations.Text.Split('|')[0];
+            name = name.Trim();
+            if (chkStatus.IsChecked == true) { statusFromChkBox = 0; } // 0-Active
+            else { statusFromChkBox = 1; } // 1-Inactive
+            LocationDetails loc = GetLocationDetailsFromList(name);
+            txt1.AppendText(nl + "UpdateWHLocationStatus()" + loc.WHID + ", " + name + ", " + statusFromChkBox);
+
+            esp = new ExecuteStoredProcedure();
+            string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
+            DataTable dtSQLResult = new DataTable();
+            dtSQLResult = esp.UpdateWHLocation(UserID, Password, loc.WHID, loc.name, staffID, statusFromChkBox);
+            // Need to add code to verify whether SP was executed successfully
+            // Retrieve from DB again to update status in combobox.
+            // Reason for pulling again from DB instead of updating directly in combobox is so that user can be sure of db update if he/she sees latest status in combobox
+            RetrieveWHLocationDetails(loc.WHID);
         }
 
+        // INPUT VALIDATION
+        public static bool IsValid(string input)
+        {
+            string strRegex = @"(^[0-9]{1,2}$)";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(input)) { return (true); }
+            else { return (false); }
+        }
+        private bool checkAllInputs()
+        {
+            bool b1, b2, b3, b4, allValid;
+            b1 = IsValid(txtFloor.Text);
+            b2 = IsValid(txtStorageRoom.Text);
+            b3 = IsValid(txtAisle.Text);
+            b4 = IsValid(txtShelf.Text);
+            allValid = b1 && b2 && b3 && b4; // allValid = true only if all 4 are true
+            return allValid;
+        }
 
+        //////////////////////// UTILITIES
+        private bool SearchInLocationList(string s)
+        {
+            foreach(LocationDetails l in locations)
+            {
+                if (l.name.Equals(s)) { return true; }
+            }
+            return false;
+        }
+        private int GetStatusFromList(string s)
+        {
+            int i = -1;
+            foreach (LocationDetails l in locations)
+            {
+                if (l.name.Equals(s)) { i = l.status; break; }
+            }
+            return i;
+        }
+        private LocationDetails GetLocationDetailsFromList(string s)
+        {
+            foreach(LocationDetails l in locations)
+            {
+                if (l.name.Equals(s)) { return l; }
+            }
+            return null;
+        }
+        private void UpdateAddButtonStatus()
+        {
+            if (checkAllInputs() == true) { BtnAdd.IsEnabled = true; }
+            else { BtnAdd.IsEnabled = false; }
+        }
+        //////////////////////// TESTING
+        private void BtnTest_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> myList = new List<string>();
+            myList.Add("abc"); myList.Add("xyz");
+
+            bool v = IsValid(txtCustomLocation.Text);
+            MessageBox.Show(v.ToString());
+        }
         public WHDetails GetWHDetailsFromDB_Dummy(int WHID)
         {
             if (WHID == 1)
             {
-                return(new WHDetails(WHID, "Royapettah", "#1, TH Road, Ch - 5"));
+                return (new WHDetails(WHID, "Royapettah", "#1, TH Road, Ch - 5"));
             }
             else
             {
@@ -59,193 +266,9 @@ namespace ETStore.Forms
             }
         }
 
-        private void BtnSave_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void BtnRetrieve_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (txtWarehouseID.Text != "")
-                {
-                    retrieveWHLocationDetails(int.Parse(txtWarehouseID.Text));
-                }
-            }
-            catch(Exception err)
-            {
-                MessageBox.Show("Error in Retrieve" + nl + err.Message);
-            }
-        }
-
-        public void retrieveWHLocationDetails(int whid)
-        {
-            string strName, strStatus, strStatus2 = "";
-            try
-            {
-                cmbLocations.Items.Clear();
-                esp = new ExecuteStoredProcedure();
-                string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
-                DataTable dtSQLResult = new DataTable();
-                dtSQLResult = esp.GetWHLocationDetails(UserID, Password, whid);
-                MessageBox.Show("whid: " + whid + "; Rows = " + dtSQLResult.Rows.Count.ToString());
-                if (dtSQLResult.Rows.Count >= 1)
-                {
-                    foreach(DataRow d in dtSQLResult.Rows)
-                    {
-                        strName = d["Name"].ToString();
-                        strStatus = d["Status"].ToString();
-                        if (strStatus.Equals("0")) { strStatus2 = "Active"; }
-                        else if (strStatus.Equals("1")) { strStatus2 = "Inactive"; }
-                        cmbLocations.Items.Add(strName + " | " + strStatus2);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("# Rows = 0");
-                }
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show("Error in retrieveWHLocationDetails()" + nl + e.Message);
-            }
-        }
-
-        private void BtnTest_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> myList = new List<string>();
-            myList.Add("abc"); myList.Add("xyz");
-
-            bool v = isValid(txtCustomLocation.Text);
-            MessageBox.Show(v.ToString());
-        }
-
-        // Currently this is returning int, but needs to be changed to string in future to accomodate for B1, B2 etc for basement
-        private int getFloor(string name)
-        {
-            try
-            {
-                int floor = 0;
-                string[] a = name.Split('F');
-                string flr = a[1];
-                int n = flr.IndexOf("SR");
-                flr = flr.Substring(0, n);
-                floor = int.Parse(flr);
-                return floor;
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show("Error in WHLocation Name Format(Floor):" + name + nl + e.Message);
-                return -100;
-            }
-        }
-        private int getStorageRoom(string name)
-        {
-            string text;
-            int i;
-            try
-            {
-                MessageBox.Show("name = " + name);
-                int n = name.IndexOf("SR")+2; // Add two to account for the 2 chars in 'SR'
-                i = name.Length - 1;
-                MessageBox.Show("n = " + n + "; i = " + i + "name.len = " + name.Length);
-                text = name.Substring(n, i - n);
-                MessageBox.Show("text = " + text);
-                text = text.Split('A')[0];
-                return int.Parse(text);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Error in WHLocation Name Format(StorageRoom):" + name + nl + e.Message);
-                return -100;
-            }
-        }
-
-
-
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-            string WHLocation = "W" + txtWarehouseID.Text + "F" + txtFloor.Text;
-            WHLocation += "SR" + txtStorageRoom.Text + "A" + txtAisle.Text + "SF" + txtShelf.Text;
-            MessageBox.Show(WHLocation);
-        }
-
-
-        // INPUT VALIDATION
-        public static bool isValid(string input)
-        {
-            string strRegex = @"(^[0-9]{1,2}$)";
-            Regex re = new Regex(strRegex);
-            if (re.IsMatch(input)) { return (true); }
-            else { return (false); }
-        }
-        private void txtFloor_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!isValid(txtFloor.Text))    {   lblFloor.Visibility = Visibility.Visible;   }
-            else                            {   lblFloor.Visibility = Visibility.Hidden;    }
-            updateAddButtonStatus();
-        }
-
-        private void txtStorageRoom_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!isValid(txtStorageRoom.Text)) { lblStorageRoom.Visibility = Visibility.Visible; }
-            else { lblStorageRoom.Visibility = Visibility.Hidden; }
-            updateAddButtonStatus();
-        }
-
-        private void txtAisle_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!isValid(txtAisle.Text))    { lblAisle.Visibility = Visibility.Visible; }
-            else                            { lblAisle.Visibility = Visibility.Hidden;  }
-            updateAddButtonStatus();
-        }
-        private void txtShelf_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!isValid(txtShelf.Text))    { lblShelf.Visibility = Visibility.Visible; }
-            else                            { lblShelf.Visibility = Visibility.Hidden; }
-            updateAddButtonStatus();
-        }
-
-        private void updateAddButtonStatus()
-        {
-            if (checkAllInputs() == true) { BtnAdd.IsEnabled = true; }
-            else { BtnAdd.IsEnabled = false; }
-        }
-
-        private bool checkAllInputs()
-        {
-            bool b1, b2, b3, b4, allValid;
-            b1 = isValid(txtFloor.Text);
-            b2 = isValid(txtStorageRoom.Text);
-            b3 = isValid(txtAisle.Text);
-            b4 = isValid(txtShelf.Text);
-            allValid = b1 && b2 && b3 && b4; // allValid = true only if all 4 are true
-            return allValid;
-        }
-
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void txtWarehouseID_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                if(int.TryParse(txtWarehouseID.Text, out int discardResult))
-                {
-                    BtnRetrieve.IsEnabled = true;
-                }
-                else { BtnRetrieve.IsEnabled = false; }
-            }
-            catch(Exception err)
-            {
-                BtnRetrieve.IsEnabled = false;
-            }
-        }
     }
 
-    // Temporary internal class to get WH Details
+    // Temporary internal classes to get WH details and Location details
     public class WHDetails
     {
         int WHID;
@@ -256,6 +279,16 @@ namespace ETStore.Forms
             WHID = ID; WHName = name; WHAddress = address;
         }
     }
+    public class LocationDetails
+    {
+        public int WHID;
+        public string name;
+        public int status;
+
+        public LocationDetails(int w, string n, int s)  {   WHID = w;  name = n; status = s;    }
+        public string ToString()    {   return WHID + ", " + name + ", " + status;  }
+    }
+
 
 }
 

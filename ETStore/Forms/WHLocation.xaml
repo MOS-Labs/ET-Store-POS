@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ETStore.Forms"
         mc:Ignorable="d"
-        Title="Add or Modify a location at a Warehouse" Height="650" Width="800" Loaded="Window_Loaded">
+        Title="Add / Modify Location inside Warehouse" Height="500" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="57*"/>
@@ -15,29 +15,49 @@
         <Label Content="Warehouse ID" HorizontalAlignment="Left" Margin="34,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.396,-0.445" Grid.ColumnSpan="3"/>
         <Label Content="Warehouse Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,55,0,0" Grid.ColumnSpan="3"/>
         <Label Content="Warehouse &#xD;&#xA;Address" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="322.5,58,0,0" RenderTransformOrigin="0.442,-2.094" Height="44" Width="72" Grid.Column="2"/>
-        <Label Content="Floor" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="10.5,209,0,0" Grid.Column="2"/>
-        <Label Content="Stoage Room" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10.5,240,0,0" Grid.Column="2"/>
-        <Label Content="Aisle" HorizontalAlignment="Left" Margin="10.5,274,0,0" VerticalAlignment="Top" Grid.Column="2"/>
-        <Label Content="Shelf" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10.5,305,0,0" Grid.Column="2"/>
-        <TextBox x:Name="txtWarehouseID" HorizontalAlignment="Left" Height="23" Margin="111.5,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtWarehouseID_LostFocus" Grid.Column="2" TextChanged="txtWarehouseID_TextChanged"/>
-        <TextBox x:Name="txtWarehouseName" HorizontalAlignment="Left" Height="23" Margin="111.5,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Grid.Column="2"/>
-        <TextBox x:Name="txtWarehouseAddress" HorizontalAlignment="Left" Height="53" Margin="399.5,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Grid.Column="2"/>
-        <TextBox x:Name="txtCustomLocation" HorizontalAlignment="Left" Height="23" Margin="322.5,373,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Grid.Column="2"/>
-        <Button x:Name="BtnSave" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="266.5,158,0,0" Click="BtnSave_Click" Grid.Column="2"/>
-        <Button x:Name="BtnRetrieve" Content="Retrieve" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Margin="322.5,28,0,0" Click="BtnRetrieve_Click" Grid.Column="2"/>
-        <ComboBox x:Name="cmbLocations" HorizontalAlignment="Left" Margin="111.5,128,0,0" VerticalAlignment="Top" Width="292" Grid.Column="2"/>
-        <Label Content="Locations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,123,0,0" Grid.ColumnSpan="3"/>
-        <Button x:Name="BtnTest" Content="Test to be deleted" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="530.5,373,0,0" Click="BtnTest_Click" Grid.Column="2"/>
-        <TextBox x:Name="txtFloor" HorizontalAlignment="Left" Height="23" Margin="111.5,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtFloor_LostFocus" Grid.Column="2"/>
-        <TextBox x:Name="txtStorageRoom" HorizontalAlignment="Left" Height="23" Margin="111.5,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtStorageRoom_LostFocus" Grid.Column="2"/>
-        <TextBox x:Name="txtAisle" HorizontalAlignment="Left" Height="23" Margin="111.5,277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtAisle_LostFocus" Grid.Column="2"/>
-        <TextBox x:Name="txtShelf" HorizontalAlignment="Left" Height="23" Margin="111.5,308,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" LostFocus="txtShelf_LostFocus" Grid.Column="2"/>
-        <Label x:Name="lblFloor" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="305.5,212,0,0" Foreground="Red" Grid.Column="2"/>
-        <Label x:Name="lblStorageRoom" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="305.5,244,0,0" Foreground="Red" Grid.Column="2" />
-        <Label x:Name="lblAisle" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="305.5,277,0,0" Foreground="Red" Grid.Column="2"/>
-        <Label x:Name="lblShelf" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="305.5,308,0,0" Foreground="Red" Grid.Column="2"/>
-        <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="215.5,340,0,0" Click="BtnCancel_Click" Grid.Column="2"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="158.5,158,0,0" VerticalAlignment="Top" Grid.Column="2"/>
-        <Button x:Name="BtnAdd" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="111.5,340,0,0" Click="BtnAdd_Click" IsEnabled="False" Grid.Column="2"/>
+        <TextBox x:Name="txtWarehouseID" HorizontalAlignment="Left" Height="23" Margin="111.5,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Grid.Column="2" TextChanged="txtWarehouseID_TextChanged" TabIndex="1"/>
+        <TextBox x:Name="txtWarehouseName" HorizontalAlignment="Left" Height="23" Margin="111.5,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189" Grid.Column="2" IsTabStop="False" IsEnabled="False"/>
+        <TextBox x:Name="txtWarehouseAddress" HorizontalAlignment="Left" Height="53" Margin="399.5,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="273" Grid.Column="2" IsEnabled="False"/>
+        <TextBox x:Name="txtCustomLocation" HorizontalAlignment="Left" Height="23" Margin="34,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" Grid.ColumnSpan="3"/>
+        <Button x:Name="BtnRetrieve" Content="Retrieve" HorizontalAlignment="Left" VerticalAlignment="Top" Width="86" Margin="322.5,28,0,0" Click="BtnRetrieve_Click" Grid.Column="2" FontWeight="Bold" IsEnabled="False" TabIndex="2"/>
+        <Button x:Name="BtnTest" Content="Test to be deleted" HorizontalAlignment="Left" VerticalAlignment="Top" Width="142" Margin="163,94,0,0" Click="BtnTest_Click" Grid.Column="2"/>
+        <TabControl Grid.ColumnSpan="3" HorizontalAlignment="Left" Height="300" Margin="34,138,0,0" VerticalAlignment="Top" Width="718">
+            <TabItem x:Name="tabItemAdd" Header="Add">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="693*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Floor" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="21,40,0,0" Grid.Column="2"/>
+                    <Label Content="Stoage Room" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,71,0,0" Grid.Column="2"/>
+                    <Label Content="Aisle" HorizontalAlignment="Left" Margin="20,105,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <Label Content="Shelf" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,136,0,0" Grid.Column="2"/>
+                    <TextBox x:Name="txtFloor" HorizontalAlignment="Left" Height="23" Margin="126,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" TextChanged="txtFloor_TextChanged" Grid.Column="2"/>
+                    <TextBox x:Name="txtStorageRoom" HorizontalAlignment="Left" Height="23" Margin="126,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" TextChanged="txtStorageRoom_TextChanged" Grid.Column="2"/>
+                    <TextBox x:Name="txtAisle" HorizontalAlignment="Left" Height="23" Margin="126,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" TextChanged="txtAisle_TextChanged" Grid.Column="2"/>
+                    <TextBox x:Name="txtShelf" HorizontalAlignment="Left" Height="23" Margin="126,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="188" TextChanged="txtShelf_TextChanged" Grid.Column="2"/>
+                    <Label x:Name="lblFloor" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="319,43,0,0" Foreground="Red" Grid.Column="2"/>
+                    <Label x:Name="lblStorageRoom" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="319,75,0,0" Foreground="Red" Grid.Column="2" />
+                    <Label x:Name="lblAisle" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="319,108,0,0" Foreground="Red" Grid.Column="2"/>
+                    <Label x:Name="lblShelf" Content="This entry is not valid" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.967,4.406" Margin="319,139,0,0" Foreground="Red" Grid.Column="2"/>
+                    <Button x:Name="BtnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="229,179,0,0" Click="BtnCancel_Click" Grid.Column="2" FontWeight="Bold"/>
+                    <Button x:Name="BtnAdd" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Margin="125,179,0,0" Click="BtnAdd_Click" IsEnabled="False" Grid.Column="2" FontWeight="Bold"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tabItemModify" Header="Modify">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="175*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="BtnSave" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Margin="500.333,68,0,0" Click="BtnSave_Click" FontWeight="Bold" Grid.Column="1"/>
+                    <ComboBox x:Name="cmbLocations" HorizontalAlignment="Left" Margin="126.333,66,0,0" VerticalAlignment="Top" Width="292" SelectionChanged="cmbLocations_SelectionChanged" Grid.Column="1"/>
+                    <Label Content="Locations" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="53.333,61,0,0" Grid.Column="1"/>
+                    <CheckBox x:Name="chkStatus" Content="Active" HorizontalAlignment="Left" Margin="430.333,72,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+                    <TextBox x:Name="txt1" HorizontalAlignment="Left" Height="137" Margin="144.333,107,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="357" VerticalScrollBarVisibility="Auto" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
