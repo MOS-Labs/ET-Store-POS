@@ -199,11 +199,13 @@ namespace ETStore
             txtUserID.Clear();
             pwdbxPassword.Clear();
         }
-        private void BtnTemp_Click(object sender, RoutedEventArgs e)
+        private void btnTemp_Click_1(object sender, RoutedEventArgs e)
         {
+            //Forms.WHLocation whl = new Forms.WHLocation(TempHardCodedStaffID);
+            //whl.Show();
 
-            Forms.WHLocation whl = new Forms.WHLocation(TempHardCodedStaffID);
-            whl.Show();
+            Forms.TempShortcuts t = new Forms.TempShortcuts();
+            t.Show();
         }
     }
 }
