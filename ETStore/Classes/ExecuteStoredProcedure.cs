@@ -71,7 +71,6 @@ namespace ETStore.Classes
             }
 
         }
-
         public static void LockAccount(string UserID)
         {
             try
@@ -92,7 +91,6 @@ namespace ETStore.Classes
             }
 
         }
-
         public bool ChangePassword(string UserID, string Password, DateTime ExpiryDate)
         {
             try
@@ -117,7 +115,7 @@ namespace ETStore.Classes
                 throw;
             }
         }
-
+        // WHLocation
         public DataTable GetWHLocationDetails(string UserID, string Password, int WHID)
         {
             try
@@ -138,9 +136,8 @@ namespace ETStore.Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("Err:ESP.GetWHLocationDetails()" + nl + e.Message);
                 MessageBox.Show("The attempt to retrieve location details for Warehouse ID: " + WHID + " might have failed. Please check with your system admin" + nl + e.Message,
-                "Error ESP23: DB Read", MessageBoxButton.OK, MessageBoxImage.Error);
+                "Error ESP_WHL1: DB Read", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
         }
@@ -166,12 +163,11 @@ namespace ETStore.Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("The attempt to add location might have failed. Please retrieve again and check in 'Modify' tab to verify" + nl + e.Message,
-                "Error ESP24: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The attempt to add location might have failed. Please 'Retrieve' again and check in 'Modify' tab to verify" + nl + e.Message,
+                "Error ESP_WHL2: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
         }
-
         public DataTable UpdateWHLocation(string UserID, string Password, int WHID, string name, int staffID, int status)
         {
             try
@@ -194,14 +190,156 @@ namespace ETStore.Classes
             }
             catch (Exception e)
             {
-                MessageBox.Show("The update to database might have failed. Please retrieve again and check in 'Modify' tab to verify" + nl + e.Message,
-                "Error ESP25: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The update to database might have failed. Please 'Retrieve' again verify" + nl + e.Message,
+                "Error ESP_WHL3: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
+        }
+        // WarehouseInfo
+        public DataTable GetWarehouseInfo(string UserID, string Password)  // Gets Details of ALL rows in WarehouseInfo table
+        {
+            try
+            {
+                myConnection.Open();
+                SqlCommand myCommand = new SqlCommand("GetWarehouseInfo", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                SqlDataAdapter daSQLLoginResult = new SqlDataAdapter(myCommand);
+                daSQLLoginResult.Fill(dtSQLLoginResult);
+                daSQLLoginResult.Dispose();
+                myConnection.Close();
+                Console.WriteLine($"GetWarehouseInfo Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
+
+                return dtSQLLoginResult;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The attempt to retrieve Warehouse details might have failed. Please retry. If issue persists, then check with your system admin" + nl + e.Message,
+                "Error ESP_WH1: DB Read", MessageBoxButton.OK, MessageBoxImage.Error);
                 throw;
             }
         }
 
+        public DataTable AddWarehouse(string UserID, string Password, string name, string address, string state, string city, 
+                                    string PINCode, int inchargeID, string TIN, string GST, int createdByID)
+        {
+            DataTable dtSQLResult = new DataTable();
+            try
+            {
+                myConnection.Open();
+                SqlCommand myCommand = new SqlCommand("AddWHLocation", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                myCommand.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
+                myCommand.Parameters.Add("@Address", SqlDbType.VarChar).Value = address;
+                myCommand.Parameters.Add("@State", SqlDbType.VarChar).Value = state;
+                myCommand.Parameters.Add("@City", SqlDbType.VarChar).Value = city;
+                myCommand.Parameters.Add("@PINCode", SqlDbType.VarChar).Value = PINCode;
+                myCommand.Parameters.Add("@WHInchargeID", SqlDbType.Int).Value = inchargeID;
+                myCommand.Parameters.Add("@WHTIN", SqlDbType.VarChar).Value = TIN;
+                myCommand.Parameters.Add("@WHGST", SqlDbType.VarChar).Value = GST;
+                myCommand.Parameters.Add("@CreatedBy", SqlDbType.Int).Value = createdByID;
+                SqlDataAdapter daSQLResult = new SqlDataAdapter(myCommand);
+                daSQLResult.Fill(dtSQLLoginResult);
+                daSQLResult.Dispose();
+                myConnection.Close();
+                Console.WriteLine($"AddWarehouse Returned Rows : {dtSQLLoginResult.Rows.Count.ToString()}");
 
+                if (dtSQLResult.Rows.Count >= 1)
+                {
+                    string res = "";
+                    foreach (DataRow d in dtSQLResult.Rows)
+                    {
+                        res = d["Result"].ToString();
+                        int.TryParse(res, out int result);
+                        MessageBox.Show("SQL returned result = " + result, "Testing: AddWarehouse", MessageBoxButton.OK);
+                        if (result != 0)
+                        {
+                            MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                            "Error ESP_WH4: DB Insert Result: " + result , MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("# Rows = 0");
+                    MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                    "Error ESP_WH5: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                return dtSQLLoginResult;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl + e.Message,
+                "Error ESP_WH6: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
+        }
 
+        public DataTable UpdateWarehouse(string UserID, string Password, int WHID, string name, string address, string state, string city,
+                                    string PINCode, int inchargeID, string TIN, string GST, int lastModifiedByID, int isDeleted, int status)
+        {
+            DataTable dtSQLResult = new DataTable();
+            try
+            {
+                myConnection.Open();
+                SqlCommand myCommand = new SqlCommand("UpdateWarehouse", myConnection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                myCommand.Parameters.Add("@WHID", SqlDbType.Int).Value = WHID;
+                myCommand.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
+                myCommand.Parameters.Add("@Address", SqlDbType.VarChar).Value = address;
+                myCommand.Parameters.Add("@State", SqlDbType.VarChar).Value = state;
+                myCommand.Parameters.Add("@City", SqlDbType.VarChar).Value = city;
+                
+                myCommand.Parameters.Add("@PINCode", SqlDbType.VarChar).Value = PINCode;
+                myCommand.Parameters.Add("@WHInchargeID", SqlDbType.Int).Value = inchargeID;
+                myCommand.Parameters.Add("@WHTIN", SqlDbType.VarChar).Value = TIN;
+                myCommand.Parameters.Add("@WHGST", SqlDbType.VarChar).Value = GST;
+                myCommand.Parameters.Add("@LastModifiedBy", SqlDbType.Int).Value = lastModifiedByID;
+                
+                myCommand.Parameters.Add("@IsDeleted", SqlDbType.Int).Value = isDeleted;
+                myCommand.Parameters.Add("@Status", SqlDbType.Int).Value = status;
+                SqlDataAdapter daSQLResult = new SqlDataAdapter(myCommand);
+                daSQLResult.Fill(dtSQLResult);
+                daSQLResult.Dispose();
+                myConnection.Close();
+                Console.WriteLine($"UpdateWarehouse returned Rows : {dtSQLResult.Rows.Count.ToString()}");
 
+                if (dtSQLResult.Rows.Count >= 1)
+                {
+                    string res = "";
+                    foreach (DataRow d in dtSQLResult.Rows)
+                    {
+                        res = d["Result"].ToString();
+                        int.TryParse(res, out int result);
+                        MessageBox.Show("SQL returned result = " + result, "Testing: UpdateWarehouse", MessageBoxButton.OK);
+
+                        if (result != 0)
+                        {
+                            MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                            "Error ESP_WH7: DB Update Result: " + result, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("# Rows = 0");
+                    MessageBox.Show("The attempt to update Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                    "Error ESP_WH8: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                return dtSQLResult;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The attempt to update Warehouse might have failed. Please search in 'Modify' tab to verify" + nl + e.Message,
+                "Error ESP_WH9: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw;
+            }
+        }
     }
 }

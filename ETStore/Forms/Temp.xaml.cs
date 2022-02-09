@@ -26,6 +26,7 @@ namespace ETStore.Forms
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            cmbTemp.Items.Add("WarehouseInfo");
             cmbTemp.Items.Add("WHLocation");
             cmbTemp.Items.Add("Testing");
         }
@@ -41,6 +42,11 @@ namespace ETStore.Forms
             {
                 Forms.Testing t = new Forms.Testing();
                 t.Show();
+            }
+            else if (cmbTemp.Text == "WarehouseInfo")
+            {
+                Forms.WarehouseInfo w = new Forms.WarehouseInfo(1);
+                w.Show();
             }
             else { }
         }

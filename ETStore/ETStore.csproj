@@ -73,6 +73,9 @@
     <Compile Include="Forms\Testing.xaml.cs">
       <DependentUpon>Testing.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\WarehouseInfo.xaml.cs">
+      <DependentUpon>WarehouseInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\WHLocation.xaml.cs">
       <DependentUpon>WHLocation.xaml</DependentUpon>
     </Compile>
@@ -96,6 +99,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Testing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\WarehouseInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,6 +148,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -58,7 +58,7 @@ namespace ETStore.Forms
             }
             catch (Exception err)
             {
-                MessageBox.Show("Unable to retrieve details for Warehouse ID: " + whid + nl,
+                MessageBox.Show("Unable to retrieve details for Warehouse ID: " + whid + nl + err.Message,
                 "Error WHL01: Unable to retrieve", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -286,7 +286,7 @@ namespace ETStore.Forms
         public int status;
 
         public LocationDetails(int w, string n, int s)  {   WHID = w;  name = n; status = s;    }
-        public string ToString()    {   return WHID + ", " + name + ", " + status;  }
+        public override string ToString()    {   return WHID + ", " + name + ", " + status;  }
     }
 
 
