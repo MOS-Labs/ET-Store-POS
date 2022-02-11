@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ETStore.Forms"
         mc:Ignorable="d"
-        Title="Add or Modify Warehouse Details" Height="710.316" Width="1365.244" Loaded="Window_Loaded">
+        Title="Add or Modify Warehouse Details" Height="825.089" Width="1365.244" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="583*"/>
@@ -16,7 +16,7 @@
             <RowDefinition Height="107*"/>
             <RowDefinition Height="312*"/>
         </Grid.RowDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="659" Margin="10,10,0,0" VerticalAlignment="Top" Width="1337" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <TabControl HorizontalAlignment="Left" Height="659" Margin="10,10,0,0" VerticalAlignment="Top" Width="1280" Grid.RowSpan="2" Grid.ColumnSpan="3">
             <TabItem x:Name="tabAdd" Header="Add" FontSize="30">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -25,71 +25,63 @@
                         <ColumnDefinition Width="395*"/>
                     </Grid.ColumnDefinitions>
                     <Label x:Name="lblUserName_Copy" Content="Name" HorizontalAlignment="Left" Margin="83,34,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtName1" HorizontalAlignment="Left" Height="36" Margin="72,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtName1" HorizontalAlignment="Left" Height="36" Margin="72,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="1" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtName1_TextChanged" MaxLength="30"/>
                     <Label x:Name="lblUserName_Copy2" Content="State" HorizontalAlignment="Left" Margin="83,203,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtState1" HorizontalAlignment="Left" Height="36" Margin="72,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtState1" HorizontalAlignment="Left" Height="36" Margin="72,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="4" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtState1_TextChanged" MaxLength="20"/>
                     <Label x:Name="lblUserName_Copy3" Content="Address" HorizontalAlignment="Left" Margin="83,76,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtAddress1" HorizontalAlignment="Left" Height="78" Margin="72,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtAddress1" HorizontalAlignment="Left" Height="78" Margin="72,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="2" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtAddress1_TextChanged" MaxLength="50"/>
                     <Label x:Name="lblUserName_Copy4" Content="City" HorizontalAlignment="Left" Margin="83,160,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtCity1" HorizontalAlignment="Left" Height="36" Margin="72,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtCity1" HorizontalAlignment="Left" Height="36" Margin="72,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="3" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtCity1_TextChanged" MaxLength="30"/>
                     <Label x:Name="lblUserName_Copy5" Content="Incharge ID" HorizontalAlignment="Left" Margin="83,290,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtInchargeID1" HorizontalAlignment="Left" Height="36" Margin="72,292,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtInchargeID1" HorizontalAlignment="Left" Height="36" Margin="72,292,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="6" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtInchargeID1_TextChanged" MaxLength="10"/>
                     <Label x:Name="lblUserName_Copy6" Content="GST" HorizontalAlignment="Left" Margin="83,374,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtGST1" HorizontalAlignment="Left" Height="36" Margin="72,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <TextBox x:Name="txtGST1" HorizontalAlignment="Left" Height="36" Margin="72,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="8" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtGST1_TextChanged" MaxLength="48"/>
                     <Label x:Name="lblUserName_Copy7" Content="TIN" HorizontalAlignment="Left" Margin="83,332,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtTIN1" HorizontalAlignment="Left" Height="36" Margin="72,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
-                    <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="72,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FF7DFF7D" TabIndex="3" Grid.Column="1"/>
-                    <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="359,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" TabIndex="3" Grid.Column="1" Background="#FFFF8C8C" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Margin="215,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="3" Grid.Column="1"/>
-                    <Label x:Name="lblResult" Content="Result" HorizontalAlignment="Left" Margin="72,503,0,0" VerticalAlignment="Top" Width="419" Height="44" FontFamily="Tahoma" FontSize="30" Grid.ColumnSpan="2" Grid.Column="1" HorizontalContentAlignment="Center"/>
+                    <TextBox x:Name="txtTIN1" HorizontalAlignment="Left" Height="36" Margin="72,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="7" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtTIN1_TextChanged" MaxLength="50"/>
+                    <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="72,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FF7DFF7D" TabIndex="9" Grid.Column="1" Click="btnSave_Click"/>
+                    <Button x:Name="btnCancel1" Content="Cancel" HorizontalAlignment="Left" Margin="359,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" TabIndex="11" Grid.Column="1" Background="#FFFF8C8C" Grid.ColumnSpan="2" Click="btnCancel1_Click"/>
+                    <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Margin="215,448,0,0" VerticalAlignment="Top" Width="132" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="10" Grid.Column="1"/>
                     <Label x:Name="lblUserName_Copy8" Content="PIN Code" HorizontalAlignment="Left" Margin="83,246,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtPINCode1" HorizontalAlignment="Left" Height="36" Margin="72,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="2" Grid.Column="1"/>
-                </Grid>
-            </TabItem>
-            <TabItem x:Name="tabModify" Header="Old" FontSize="30">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="717*"/>
-                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtPINCode1" HorizontalAlignment="Left" Height="36" Margin="72,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="419" FontSize="18" FontFamily="Tahoma" TabIndex="5" Grid.ColumnSpan="2" Grid.Column="1" TextChanged="txtPINCode1_TextChanged" MaxLength="20"/>
+                    <Label x:Name="lblInvalidInchargeID1" Content="Invalid" Grid.Column="2" HorizontalAlignment="Left" Margin="121,296,0,0" VerticalAlignment="Top" FontFamily="Tahoma" FontSize="18" FontWeight="Bold" Foreground="Red"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabAdd_Copy" Header="Modify" Margin="-2,-2,-2,0" FontSize="30">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="119*"/>
-                        <ColumnDefinition Width="214*"/>
-                        <ColumnDefinition Width="395*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="178*"/>
+                        <ColumnDefinition Width="391*"/>
+                        <ColumnDefinition Width="722*"/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="lblUserName_Copy12" Content="Name" HorizontalAlignment="Left" Margin="42,83,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtName2" HorizontalAlignment="Left" Height="36" Margin="169,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" TextChanged="txtName2_TextChanged" MaxLength="48"/>
-                    <Label x:Name="lblUserName_Copy13" Content="State" HorizontalAlignment="Left" Margin="42,250,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtState2" HorizontalAlignment="Left" Height="36" Margin="169,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="48"/>
-                    <Label x:Name="lblUserName_Copy14" Content="Address" HorizontalAlignment="Left" Margin="42,122,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtAddress2" HorizontalAlignment="Left" Height="78" Margin="169,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3"/>
-                    <Label x:Name="lblUserName_Copy15" Content="City" HorizontalAlignment="Left" Margin="42,207,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtCity2" HorizontalAlignment="Left" Height="36" Margin="169,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="48"/>
-                    <Label x:Name="lblUserName_Copy16" Content="Incharge ID" HorizontalAlignment="Left" Margin="42,330,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtInchargeID2" HorizontalAlignment="Left" Height="36" Margin="169,328,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="5"/>
-                    <Label x:Name="lblUserName_Copy17" Content="GST" HorizontalAlignment="Left" Margin="42,410,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtGST2" HorizontalAlignment="Left" Height="36" Margin="169,410,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="10"/>
-                    <Label x:Name="lblUserName_Copy18" Content="TIN" HorizontalAlignment="Left" Margin="42,369,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtTIN2" HorizontalAlignment="Left" Height="36" Margin="169,369,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="10"/>
-                    <Button x:Name="btnSave1" Content="Save" Margin="189,493,88,0" VerticalAlignment="Top" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FF7DFF7D" TabIndex="3" Grid.Column="1"/>
-                    <Button x:Name="btnCancel1" Content="Cancel" HorizontalAlignment="Left" Margin="309,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" TabIndex="3" Grid.Column="1" Background="#FFFF8C8C" Grid.ColumnSpan="2" Click="btnCancel1_Click"/>
-                    <Button x:Name="BtnSearch" Content="Search" HorizontalAlignment="Left" Margin="169,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FFA7BBFF" TabIndex="3" Grid.ColumnSpan="2" Click="BtnSearch_Click"/>
-                    <Label x:Name="lblResult1" Content="Result" HorizontalAlignment="Left" Margin="169,539,0,0" VerticalAlignment="Top" Width="472" Height="44" FontFamily="Tahoma" FontSize="30" Grid.ColumnSpan="3" HorizontalContentAlignment="Center"/>
-                    <TextBox x:Name="txt1" HorizontalAlignment="Left" Height="87" Margin="124,493,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="485" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.Column="2"/>
-                    <Button x:Name="btnClear1_Copy" Content="Clear" HorizontalAlignment="Left" Margin="70,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="3" Grid.Column="1" Click="btnClear1_Copy_Click"/>
-                    <Button x:Name="BtnLoad" Content="&lt;&lt;&lt;&#xD;&#xA;Load" HorizontalAlignment="Left" Margin="41,234,0,0" VerticalAlignment="Top" Width="74" Height="62" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FFA7BBFF" TabIndex="3" Grid.Column="2" FontWeight="Bold" Click="BtnLoad_Click"/>
-                    <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="42,42,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtWHID2" HorizontalAlignment="Left" Height="36" Margin="169,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" TextChanged="txtWHID2_TextChanged"/>
-                    <ListBox x:Name="lstWarehouseInfo" Grid.Column="2" HorizontalAlignment="Left" Height="446" Margin="124,42,0,0" VerticalAlignment="Top" Width="485" FontSize="18"/>
-                    <Label x:Name="lblWHIDInvalid" Content="Invalid" HorizontalAlignment="Left" Margin="37,42,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="2" Foreground="Red" FontWeight="Bold"/>
-                    <Label x:Name="lblUserName_Copy1" Content="PIN Code" HorizontalAlignment="Left" Margin="42,291,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <TextBox x:Name="txtPINCode2" HorizontalAlignment="Left" Height="36" Margin="169,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="472" FontSize="18" FontFamily="Tahoma" TabIndex="0" Grid.ColumnSpan="3" MaxLength="10"/>
-                    <Label x:Name="lblUserName_Copy9" Content="Status" HorizontalAlignment="Left" Margin="42,449,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18"/>
-                    <ComboBox x:Name="cmbStatus2" HorizontalAlignment="Left" Margin="169,451,0,0" VerticalAlignment="Top" Width="472" Grid.ColumnSpan="3" Height="37"/>
+                    <Label x:Name="lblUserName_Copy12" Content="Name" HorizontalAlignment="Left" Margin="25,83,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtName2" HorizontalAlignment="Left" Height="36" Margin="141,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="102" Grid.ColumnSpan="3" TextChanged="txtName2_TextChanged" MaxLength="30" Grid.Column="1"/>
+                    <Label x:Name="lblUserName_Copy13" Content="State" HorizontalAlignment="Left" Margin="25,250,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtState2" HorizontalAlignment="Left" Height="36" Margin="141,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="105" Grid.ColumnSpan="3" MaxLength="20" Grid.Column="1" TextChanged="txtState2_TextChanged"/>
+                    <Label x:Name="lblUserName_Copy14" Content="Address" HorizontalAlignment="Left" Margin="25,122,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtAddress2" HorizontalAlignment="Left" Height="78" Margin="141,122,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="103" Grid.ColumnSpan="3" Grid.Column="1" TextChanged="txtAddress2_TextChanged" MaxLength="50"/>
+                    <Label x:Name="lblUserName_Copy15" Content="City" HorizontalAlignment="Left" Margin="25,207,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtCity2" HorizontalAlignment="Left" Height="36" Margin="141,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="104" Grid.ColumnSpan="3" MaxLength="30" Grid.Column="1" TextChanged="txtCity2_TextChanged"/>
+                    <Label x:Name="lblUserName_Copy16" Content="Incharge ID" HorizontalAlignment="Left" Margin="25,330,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtInchargeID2" HorizontalAlignment="Left" Height="36" Margin="141,328,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="107" Grid.ColumnSpan="3" MaxLength="10" Grid.Column="1" TextChanged="txtInchargeID2_TextChanged"/>
+                    <Label x:Name="lblUserName_Copy17" Content="GST" HorizontalAlignment="Left" Margin="25,410,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtGST2" HorizontalAlignment="Left" Height="36" Margin="141,410,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="109" Grid.ColumnSpan="3" MaxLength="50" Grid.Column="1" TextChanged="txtGST2_TextChanged"/>
+                    <Label x:Name="lblUserName_Copy18" Content="TIN" HorizontalAlignment="Left" Margin="25,369,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtTIN2" HorizontalAlignment="Left" Height="36" Margin="141,369,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="108" Grid.ColumnSpan="3" MaxLength="50" Grid.Column="1" TextChanged="txtTIN2_TextChanged"/>
+                    <Button x:Name="btnSave2" Content="Save" Margin="195,493,82,0" VerticalAlignment="Top" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FF7DFF7D" TabIndex="113" Grid.Column="2" Click="btnSave2_Click"/>
+                    <Button x:Name="btnCancel2" Content="Cancel" HorizontalAlignment="Left" Margin="309,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" TabIndex="117" Grid.Column="2" Background="#FFFF8C8C" Grid.ColumnSpan="2" Click="btnCancel2_Click"/>
+                    <Button x:Name="BtnSearch" Content="Search" HorizontalAlignment="Left" Margin="141,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FFA7BBFF" TabIndex="111" Grid.ColumnSpan="2" Click="BtnSearch_Click" Grid.Column="1"/>
+                    <Button x:Name="btnClear2" Content="Clear" HorizontalAlignment="Left" Margin="76,493,0,0" VerticalAlignment="Top" Width="114" Height="33" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="Gold" TabIndex="112" Grid.Column="2" Click="btnClear2_Click"/>
+                    <Button x:Name="BtnLoad" Content="&lt;&lt;&lt;&#xD;&#xA;Load" HorizontalAlignment="Left" Margin="136,241,0,0" VerticalAlignment="Top" Width="74" Height="62" FontFamily="Tahoma" FontSize="18" BorderBrush="#FF707070" Background="#FFA7BBFF" TabIndex="3" Grid.Column="3" FontWeight="Bold" Click="BtnLoad_Click"/>
+                    <Label x:Name="lblID" Content="ID" HorizontalAlignment="Left" Margin="25,42,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtWHID2" HorizontalAlignment="Left" Height="36" Margin="141,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="101" Grid.ColumnSpan="3" TextChanged="txtWHID2_TextChanged" Grid.Column="1" MaxLength="10"/>
+                    <ListBox x:Name="lstWarehouseInfo" Grid.Column="3" HorizontalAlignment="Left" Height="446" Margin="217,42,0,0" VerticalAlignment="Top" Width="485" FontSize="18"/>
+                    <Label x:Name="lblInvalidWHID" Content="Invalid" HorizontalAlignment="Left" Margin="42,42,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="3" Foreground="Red" FontWeight="Bold"/>
+                    <Label x:Name="lblUserName_Copy1" Content="PIN Code" HorizontalAlignment="Left" Margin="25,291,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <TextBox x:Name="txtPINCode2" HorizontalAlignment="Left" Height="36" Margin="141,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="458" FontSize="18" FontFamily="Tahoma" TabIndex="106" Grid.ColumnSpan="3" MaxLength="20" Grid.Column="1" TextChanged="txtPINCode2_TextChanged"/>
+                    <Label x:Name="lblUserName_Copy9" Content="Status" HorizontalAlignment="Left" Margin="25,449,0,0" VerticalAlignment="Top" Width="107" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="1"/>
+                    <ComboBox x:Name="cmbStatus2" HorizontalAlignment="Left" Margin="141,451,0,0" VerticalAlignment="Top" Width="458" Grid.ColumnSpan="3" Height="37" FontFamily="Tahoma" FontSize="18" Grid.Column="1" TabIndex="110" SelectionChanged="cmbStatus2_SelectionChanged"/>
+                    <Label x:Name="lblInvalidInchargeID2" Content="Invalid" HorizontalAlignment="Left" Margin="42,330,0,0" VerticalAlignment="Top" Width="122" Height="34" FontFamily="Tahoma" FontSize="18" Grid.Column="3" Foreground="Red" FontWeight="Bold"/>
                 </Grid>
             </TabItem>
         </TabControl>

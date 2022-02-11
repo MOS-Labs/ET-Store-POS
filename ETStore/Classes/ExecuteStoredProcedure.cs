@@ -224,11 +224,12 @@ namespace ETStore.Classes
         public DataTable AddWarehouse(string UserID, string Password, string name, string address, string state, string city, 
                                     string PINCode, int inchargeID, string TIN, string GST, int createdByID)
         {
+            bool success = true;
             DataTable dtSQLResult = new DataTable();
             try
             {
                 myConnection.Open();
-                SqlCommand myCommand = new SqlCommand("AddWHLocation", myConnection)
+                SqlCommand myCommand = new SqlCommand("AddWarehouse", myConnection)
                 {
                     CommandType = System.Data.CommandType.StoredProcedure
                 };
@@ -237,9 +238,9 @@ namespace ETStore.Classes
                 myCommand.Parameters.Add("@State", SqlDbType.VarChar).Value = state;
                 myCommand.Parameters.Add("@City", SqlDbType.VarChar).Value = city;
                 myCommand.Parameters.Add("@PINCode", SqlDbType.VarChar).Value = PINCode;
-                myCommand.Parameters.Add("@WHInchargeID", SqlDbType.Int).Value = inchargeID;
-                myCommand.Parameters.Add("@WHTIN", SqlDbType.VarChar).Value = TIN;
-                myCommand.Parameters.Add("@WHGST", SqlDbType.VarChar).Value = GST;
+                myCommand.Parameters.Add("@InchargeID", SqlDbType.Int).Value = inchargeID;
+                myCommand.Parameters.Add("@TIN", SqlDbType.VarChar).Value = TIN;
+                myCommand.Parameters.Add("@GST", SqlDbType.VarChar).Value = GST;
                 myCommand.Parameters.Add("@CreatedBy", SqlDbType.Int).Value = createdByID;
                 SqlDataAdapter daSQLResult = new SqlDataAdapter(myCommand);
                 daSQLResult.Fill(dtSQLLoginResult);
@@ -252,12 +253,12 @@ namespace ETStore.Classes
                     string res = "";
                     foreach (DataRow d in dtSQLResult.Rows)
                     {
-                        res = d["Result"].ToString();
+                        res = d["Return Value"].ToString();
                         int.TryParse(res, out int result);
                         MessageBox.Show("SQL returned result = " + result, "Testing: AddWarehouse", MessageBoxButton.OK);
                         if (result != 0)
                         {
-                            MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                            MessageBox.Show("The attempt to add Warehouse did not return a confirmation. Please search in 'Modify' tab to verify" + nl,
                             "Error ESP_WH4: DB Insert Result: " + result , MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
@@ -265,19 +266,23 @@ namespace ETStore.Classes
                 else
                 {
                     Console.WriteLine("# Rows = 0");
-                    MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
-                    "Error ESP_WH5: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // TEMPORARILY DISABLING THE BELOW ERROR MSG ESP_WH8 BCOZ ITS ALWAYS SHOWING UP EVEN THO DB UPDATE WAS SUCCESSFUL
+                    //MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                    //"Error ESP_WH5: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 return dtSQLLoginResult;
             }
             catch (Exception e)
             {
-                MessageBox.Show("The attempt to add Warehouse might have failed. Please search in 'Modify' tab to verify" + nl + e.Message,
+                MessageBox.Show("The attempt to add Warehouse caused an exception. Please search in 'Modify' tab to verify" + nl + e.Message,
                 "Error ESP_WH6: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                success = false;
                 throw;
             }
-        }
+            // Show success message if no exception was thrown i.e catch block was not entered
+            if (success) { MessageBox.Show("Warehouse added successfully", "ESP_Success", MessageBoxButton.OK, MessageBoxImage.Hand); }
 
+        }
         public DataTable UpdateWarehouse(string UserID, string Password, int WHID, string name, string address, string state, string city,
                                     string PINCode, int inchargeID, string TIN, string GST, int lastModifiedByID, int isDeleted, int status)
         {
@@ -296,17 +301,15 @@ namespace ETStore.Classes
                 myCommand.Parameters.Add("@City", SqlDbType.VarChar).Value = city;
                 
                 myCommand.Parameters.Add("@PINCode", SqlDbType.VarChar).Value = PINCode;
-                myCommand.Parameters.Add("@WHInchargeID", SqlDbType.Int).Value = inchargeID;
-                myCommand.Parameters.Add("@WHTIN", SqlDbType.VarChar).Value = TIN;
-                myCommand.Parameters.Add("@WHGST", SqlDbType.VarChar).Value = GST;
+                myCommand.Parameters.Add("@InchargeID", SqlDbType.Int).Value = inchargeID;
+                myCommand.Parameters.Add("@TIN", SqlDbType.VarChar).Value = TIN;
+                myCommand.Parameters.Add("@GST", SqlDbType.VarChar).Value = GST;
                 myCommand.Parameters.Add("@LastModifiedBy", SqlDbType.Int).Value = lastModifiedByID;
                 
                 myCommand.Parameters.Add("@IsDeleted", SqlDbType.Int).Value = isDeleted;
                 myCommand.Parameters.Add("@Status", SqlDbType.Int).Value = status;
                 SqlDataAdapter daSQLResult = new SqlDataAdapter(myCommand);
                 daSQLResult.Fill(dtSQLResult);
-                daSQLResult.Dispose();
-                myConnection.Close();
                 Console.WriteLine($"UpdateWarehouse returned Rows : {dtSQLResult.Rows.Count.ToString()}");
 
                 if (dtSQLResult.Rows.Count >= 1)
@@ -314,7 +317,7 @@ namespace ETStore.Classes
                     string res = "";
                     foreach (DataRow d in dtSQLResult.Rows)
                     {
-                        res = d["Result"].ToString();
+                        res = d["Return Value"].ToString();
                         int.TryParse(res, out int result);
                         MessageBox.Show("SQL returned result = " + result, "Testing: UpdateWarehouse", MessageBoxButton.OK);
 
@@ -328,10 +331,12 @@ namespace ETStore.Classes
                 else
                 {
                     Console.WriteLine("# Rows = 0");
-                    MessageBox.Show("The attempt to update Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
-                    "Error ESP_WH8: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                    // TEMPORARILY DISABLING THE BELOW ERROR MSG ESP_WH8 BCOZ ITS ALWAYS SHOWING UP EVEN THO DB UPDATE WAS SUCCESSFUL
+                    // MessageBox.Show("The attempt to update Warehouse might have failed. Please search in 'Modify' tab to verify" + nl,
+                    // "Error ESP_WH8: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-
+                daSQLResult.Dispose();
+                myConnection.Close();
                 return dtSQLResult;
             }
             catch (Exception e)

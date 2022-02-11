@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,5 +38,19 @@ namespace ETStore.Forms
             txtLog.AppendText("=================================" + nl + "cmbTest_SelectionChanged: text:" + cmbTest.Text 
                 + nl + "SelectedItem: " + cmbTest.SelectedItem + nl + "SelectedItem.ToString: " + cmbTest.SelectedItem);
         }
+
+        private void txtTest_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtLog.AppendText(nl + IsValid(txtTest.Text));
+        }
+
+        public static bool IsValid(string input)
+        {
+            string strRegex = @"(^[0-9]{1,3}$)";
+            Regex re = new Regex(strRegex);
+            if (re.IsMatch(input)) { return (true); }
+            else { return (false); }
+        }
+
     }
 }

@@ -31,30 +31,64 @@ namespace ETStore.Forms
             InitializeComponent();
             staffID = stfID;
         }
-
         //////////////////////// EVENTS
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             RetrieveAllWarehouseInfo();
             Diag_ShowWHList();
-            lblWHIDInvalid.Visibility = Visibility.Hidden;
-
+            lblInvalidWHID.Visibility = Visibility.Hidden;
+            lblInvalidInchargeID1.Visibility = Visibility.Hidden;
+            lblInvalidInchargeID2.Visibility = Visibility.Hidden;
+            cmbStatus2.Items.Add("Active"); cmbStatus2.Items.Add("Inactive");
+            btnSave.IsEnabled = false;
         }
+        //////////////////////// EVENTS_ADD
+        private void txtInchargeID1_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtInchargeID1.Text.Equals("") || IsValid(txtInchargeID1.Text))
+            {
+                lblInvalidInchargeID1.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                lblInvalidInchargeID1.Visibility = Visibility.Visible;
+                btnSave.IsEnabled = false;
+            }
+            checkAllInputs_Add();
+        }
+        private void txtName1_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Add(); }
+        private void txtAddress1_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Add(); }
+        private void txtCity1_TextChanged(object sender, TextChangedEventArgs e){ checkAllInputs_Add(); }
+        private void txtState1_TextChanged(object sender, TextChangedEventArgs e){ checkAllInputs_Add(); }
+        private void txtPINCode1_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Add(); }
+        private void txtTIN1_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Add(); }
+        private void txtGST1_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Add(); }
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            AddWarehouse();
+        }
+        private void btnCancel1_Click(object sender, RoutedEventArgs e) { Close(); }
+        //////////////////////// EVENTS_MODIFY
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            Search();
+            // Search might not be required if all WHInfo is loaded at window load
         }
         private void txtWHID2_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (IsValid(txtWHID2.Text))
             {
-                lblWHIDInvalid.Visibility = Visibility.Hidden;
+                lblInvalidWHID.Visibility = Visibility.Hidden;
                 FilterByID(int.Parse(txtWHID2.Text));
             }
             else
             {
-                if (txtWHID2.Text.Equals(""))   { lblWHIDInvalid.Visibility = Visibility.Hidden; }
-                else                            { lblWHIDInvalid.Visibility = Visibility.Visible; }
+                if (txtWHID2.Text.Equals(""))   
+                {
+                    lblInvalidWHID.Visibility = Visibility.Hidden;
+                    lstWarehouseInfo.Items.Clear();
+                    addAllWHToListBox();
+                }
+                else                            { lblInvalidWHID.Visibility = Visibility.Visible; }
             }
         }
         private void txtName2_TextChanged(object sender, TextChangedEventArgs e)
@@ -63,13 +97,38 @@ namespace ETStore.Forms
             if (!txtWHID2.Text.Equals("")) { return; } // Return if WHIID is already entered, bcoz WHID will give only 1 WH Info in list, so no need to filter
             FilterByName(txtName2.Text);
         }
+        private void txtInchargeID2_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtInchargeID2.Text.Equals("") || IsValid(txtInchargeID2.Text))
+            {
+                lblInvalidInchargeID2.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                lblInvalidInchargeID2.Visibility = Visibility.Visible;
+                btnSave2.IsEnabled = false;
+            }
+            checkAllInputs_Modify();
+        }
+        private void txtAddress2_TextChanged(object sender, TextChangedEventArgs e){ checkAllInputs_Modify(); }
+        private void txtCity2_TextChanged(object sender, TextChangedEventArgs e){ checkAllInputs_Modify(); }
+        private void txtState2_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Modify(); }
+        private void txtPINCode2_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Modify(); }
+        private void txtTIN2_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Modify(); }
+        private void txtGST2_TextChanged(object sender, TextChangedEventArgs e) { checkAllInputs_Modify(); }
+        private void cmbStatus2_SelectionChanged(object sender, SelectionChangedEventArgs e) { checkAllInputs_Modify(); }
         private void BtnLoad_Click(object sender, RoutedEventArgs e)
         {
             WHInfo w = GetWHFromWHList(lstWarehouseInfo.SelectedItem.ToString());
             LoadWHInfo(w);
             txtWHID2.IsEnabled = false;
         }
-        private void btnClear1_Copy_Click(object sender, RoutedEventArgs e)
+        private void btnSave2_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateWarehouseInfo();
+            btnClear2_Click(null, null); // Calling the clear function
+        }
+        private void btnClear2_Click(object sender, RoutedEventArgs e)
         {
             txtWHID2.IsEnabled = true;
             txtWHID2.Text = "";
@@ -81,81 +140,12 @@ namespace ETStore.Forms
             txtInchargeID2.Text = "";
             txtTIN2.Text = "";
             txtGST2.Text = "";
+            cmbStatus2.Text = "";
             lstWarehouseInfo.Items.Clear();
+            lblInvalidInchargeID2.Visibility = Visibility.Hidden;
             addAllWHToListBox();
         }
-
-        private void btnCancel1_Click(object sender, RoutedEventArgs e) { this.Close(); }
-
-
-        public void Diag_ShowWHList()
-        {
-            foreach (WHInfo w in WHList)
-            {
-                txt1.AppendText(nl + w.ToString());
-            }
-        }
-
-        private void Search()
-        {
-        }
-
-        private void FilterByID(int ID)
-        {
-            lstWarehouseInfo.Items.Clear();
-            foreach(WHInfo wh in WHList)
-            {
-                if(wh.ID == ID) { addWHToListBox(wh); }
-            }
-        }
-
-        private void FilterByName(string searchName)
-        {
-            lstWarehouseInfo.Items.Clear();
-            foreach (WHInfo wh in WHList)
-            {
-                // if (wh.name.Contains(searchName)) { addWHToListBox(wh); }
-                if (wh.name.ToUpper().Contains(searchName.ToUpper())) { addWHToListBox(wh); }
-            }
-        }
-
-        private WHInfo GetWHFromWHList(string s)
-        {
-            try
-            {
-                s = s.Split('|')[0];
-                s = s.Trim();
-                int id = int.Parse(s);
-                foreach (WHInfo w in WHList)
-                {
-                    if(w.ID == id) { return w; }
-                }
-                return null;
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show("Unable to load details of this Warehouse" + nl
-                + e.Message + nl + e.StackTrace + nl + e.Data + nl + e.Source,
-                "Error WH10: Unable to load", MessageBoxButton.OK, MessageBoxImage.Error);
-                return null;
-            }
-        }
-
-        private void LoadWHInfo(WHInfo w)
-        {
-            txtWHID2.Text = w.ID.ToString();
-            txtName2.Text = w.name;
-            txtAddress2.Text = w.address;
-            txtCity2.Text = w.city;
-            txtState2.Text = w.state;
-            txtPINCode2.Text = w.PINCode;
-            txtInchargeID2.Text = w.inchargeID.ToString();
-            txtTIN2.Text = w.TIN;
-            txtGST2.Text = w.GST;
-            cmbStatus2.Items.Add("Active"); cmbStatus2.Items.Add("Inactive");
-            cmbStatus2.Text = w.status;
-        }
-
+        private void btnCancel2_Click(object sender, RoutedEventArgs e) { Close(); }
         /// CALLS TO EXECUTE STORED PROCEDURE
         public void RetrieveAllWarehouseInfo()
         {
@@ -199,7 +189,6 @@ namespace ETStore.Forms
                         if (intStatus == 0) { strStatus = "Active"; }
                         else if (intStatus == 1) { strStatus = "Inactive"; }
 
-
                         wh = new WHInfo(WHID, name, address, city, state, PINCode, inchargeID, TIN, GST, crDate, crID, lmDate, lmID, isDel, delID, delDate, strStatus);
                         WHList.Add(wh);
                         addWHToListBox(wh);
@@ -219,75 +208,133 @@ namespace ETStore.Forms
                 "Error WH4: Possible error during retrieve", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        //public void AddWHLocation()
-        //{
-        //    int whid;
-        //    if (locations.Count == 0) { whid = int.Parse(txtWarehouseID.Text); }
-        //    else { whid = locations[0].WHID; }
-        //    string WHLocationName = "W" + whid + "F" + txtFloor.Text;
-        //    WHLocationName += "SR" + txtStorageRoom.Text + "A" + txtAisle.Text + "SF" + txtShelf.Text;
+        public void UpdateWarehouseInfo()
+        {
+            bool success = true;
+            try
+            {
+                int WHID, inchargeID, lmID, isDel, intStatus = -1;
+                string name, address, state, city, PINCode, TIN, GST, strStatus = "-";
+                WHID = int.Parse(txtWHID2.Text);
+                name = txtName2.Text;
+                address = txtAddress2.Text;
+                state = txtState2.Text;
+                city = txtCity2.Text;
 
-        //    if (SearchInLocationList(WHLocationName))
-        //    {
-        //        MessageBox.Show("Unable to add \"" + WHLocationName + "\" because a location with this name already exists." + nl
-        //            + "Please check 'Modify' tab to see existing locations",
-        //            "Error WHL05: Duplicate Location", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        return;
-        //    }
-        //    esp = new ExecuteStoredProcedure();
-        //    string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
-        //    DataTable dtSQLResult = new DataTable();
-        //    dtSQLResult = esp.AddWHLocation(UserID, Password, int.Parse(txtWarehouseID.Text), WHLocationName, staffID);
-        //    // NEED TO ADD CODE TO VERIFY WHETHER WHLOCATION WAS ADDED SUCCESSFULLY
-        //}
-        //public void UpdateWHLocationStatus()
-        //{
-        //    int statusFromChkBox;
-        //    string name = cmbLocations.Text.Split('|')[0];
-        //    name = name.Trim();
-        //    if (chkStatus.IsChecked == true) { statusFromChkBox = 0; } // 0-Active
-        //    else { statusFromChkBox = 1; } // 1-Inactive
-        //    LocationDetails loc = GetLocationDetailsFromList(name);
-        //    txt1.AppendText(nl + "UpdateWHLocationStatus()" + loc.WHID + ", " + name + ", " + statusFromChkBox);
+                PINCode = txtPINCode2.Text;
+                inchargeID = int.Parse(txtInchargeID2.Text);
+                TIN = txtTIN2.Text;
+                GST = txtGST2.Text;
+                strStatus = cmbStatus2.Text;
+                if (strStatus.Equals("Active")) { intStatus = 0; }
+                else if (strStatus.Equals("Inactive")) { intStatus = 1; }
 
-        //    esp = new ExecuteStoredProcedure();
-        //    string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
-        //    DataTable dtSQLResult = new DataTable();
-        //    dtSQLResult = esp.UpdateWHLocation(UserID, Password, loc.WHID, loc.name, staffID, statusFromChkBox);
-        //    // Need to add code to verify whether SP was executed successfully
-        //    // Retrieve from DB again to update status in combobox.
-        //    // Reason for pulling again from DB instead of updating directly in combobox is so that user can be sure of db update if he/she sees latest status in combobox
-        //    RetrieveWHLocationDetails(loc.WHID);
-        //}
+                // Temporarily Hardcoded
+                string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
+                lmID = 5;
+                isDel = 0;
+                /////////////
+                esp = new ExecuteStoredProcedure();
+                DataTable dtSQLResult = new DataTable();
+                dtSQLResult = esp.UpdateWarehouse(UserID, Password, WHID, name, address, state, city, PINCode, inchargeID, TIN, GST, lmID, isDel, intStatus);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The attempt to update Warehouse details might have failed. Please load the warehouse details again to verify" + nl
+                    + e.Message + nl + e.StackTrace + nl + e.Data + nl + e.Source,
+                "Error WH5: DB Update", MessageBoxButton.OK, MessageBoxImage.Error);
+                success = false;
+            }
+            // Show success message if no exception was thrown i.e catch block was not entered
+            if (success) { MessageBox.Show("Warehouse details updated successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Hand); }
+            // Retrieve from DB again to update WHList and listBox
+            // Reason for pulling again from DB instead of updating directly in listBox or WHList is so that
+            // user can be sure of db update if he/she sees latest status in ListBox, or if clicks on load again to see all details
+            RetrieveAllWarehouseInfo();
+        }
+        public void AddWarehouse()
+        {
+            bool success = true;
+            try
+            {
+                string UserID = "Admin", Password = "Test"; // Temporarily Hardcoded
+                int createdByID = 5, inchargeID; // Temporarily Hardcoded
+                string name, address, state, city, PINCode, TIN, GST;
 
+                name = txtName1.Text;
+                address = txtAddress1.Text;
+                state = txtState1.Text;
+                city = txtCity1.Text;
+                PINCode = txtPINCode1.Text;
+                inchargeID = int.Parse(txtInchargeID1.Text);
+                TIN = txtTIN1.Text;
+                GST = txtGST1.Text;
 
+                esp = new ExecuteStoredProcedure();
+                DataTable dtSQLResult = new DataTable();
+                dtSQLResult = esp.AddWarehouse(UserID, Password, name, address, state, city, PINCode, inchargeID, TIN, GST, createdByID);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The attempt to add Warehouse might have failed. Please check in 'Modify' tab to verify" + nl
+                    + e.Message + nl + e.StackTrace + nl + e.Data + nl + e.Source,
+                "Error WH6: DB Insert", MessageBoxButton.OK, MessageBoxImage.Error);
+                success = false;
+            }
+            // Show success message if no exception was thrown i.e catch block was not entered
+            if(success) { MessageBox.Show("Warehouse added successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Hand); }
+            
 
-
+            // Retrieve from DB again to update WHList and listBox
+            // Reason for pulling again from DB instead of updating directly in listBox or WHList is so that
+            // user can be sure of db update if he/she sees latest status in ListBox, or if clicks on load again to see all details
+            RetrieveAllWarehouseInfo();
+        }
         // INPUT VALIDATION
         public static bool IsValid(string input)
         {
-            string strRegex = @"(^[0-9]{1,2}$)";
+            string strRegex = @"(^[0-9]{1,6}$)";
             Regex re = new Regex(strRegex);
             if (re.IsMatch(input)) { return (true); }
             else { return (false); }
         }
-        private bool checkAllInputs()
+        private void checkAllInputs_Add()
         {
-            bool b1, b2, allValid;
-            b1 = IsValid(txtName1.Text);
-            b2 = IsValid(txtInchargeID1.Text);
-            allValid = b1 && b2; // allValid = true only if all 2 are true
-            return allValid;
+            bool b1, b2, b3, b4, b5, b6, b7, b8, allValid;
+            b1 = txtName1.Text != "";
+            b2 = txtAddress1.Text != "";
+            b3 = txtState1.Text != "";
+            b4 = txtCity1.Text != "";
+            b5 = txtPINCode1.Text != "";
+            b6 = txtInchargeID1.Text!= "";
+            b7 = txtTIN1.Text != "";
+            b8 = txtGST1.Text != "";
+            allValid = b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8; // allValid = true only if all values on RHS are true
+            if (allValid) { btnSave.IsEnabled = true; }
+            else { btnSave.IsEnabled = false; }
         }
-
+        private void checkAllInputs_Modify()
+        {
+            bool b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, allValid;
+            b0 = txtWHID2.Text != "";
+            b1 = txtName2.Text != "";
+            b2 = txtAddress2.Text != "";
+            b3 = txtState2.Text != "";
+            b4 = txtCity2.Text != "";
+            b5 = txtPINCode2.Text != "";
+            b6 = txtInchargeID2.Text != "";
+            b7 = txtTIN2.Text != "";
+            b8 = txtGST2.Text != "";
+            b9 = cmbStatus2.Text != "";
+            allValid = b0 && b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9; // allValid = true only if all values on RHS are true
+            if (allValid) { btnSave2.IsEnabled = true; }
+            else { btnSave2.IsEnabled = false; }
+        }
         // UTILITIES
-
-
         private void addWHToListBox(WHInfo wh)
         {
             lstWarehouseInfo.Items.Add(wh.ID + " | " + wh.name + " | " + wh.city + " | " + wh.status);
         }
-
         private void addAllWHToListBox()
         {
             foreach(WHInfo wh in WHList)
@@ -295,7 +342,64 @@ namespace ETStore.Forms
                 lstWarehouseInfo.Items.Add(wh.ID + " | " + wh.name + " | " + wh.city + " | " + wh.status);
             }
         }
-
+        private void FilterByID(int ID)
+        {
+            lstWarehouseInfo.Items.Clear();
+            foreach (WHInfo wh in WHList)
+            {
+                if (wh.ID == ID) { addWHToListBox(wh); }
+            }
+        }
+        private void FilterByName(string searchName)
+        {
+            lstWarehouseInfo.Items.Clear();
+            foreach (WHInfo wh in WHList)
+            {
+                // if (wh.name.Contains(searchName)) { addWHToListBox(wh); }
+                if (wh.name.ToUpper().Contains(searchName.ToUpper())) { addWHToListBox(wh); }
+            }
+        }
+        public void Diag_ShowWHList()
+        {
+            foreach (WHInfo w in WHList)
+            {
+                txt1.AppendText(nl + w.ToString());
+            }
+        }
+        private WHInfo GetWHFromWHList(string s)
+        {
+            try
+            {
+                s = s.Split('|')[0];
+                s = s.Trim();
+                int id = int.Parse(s);
+                foreach (WHInfo w in WHList)
+                {
+                    if (w.ID == id) { return w; }
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Unable to load details of this Warehouse" + nl
+                + e.Message + nl + e.StackTrace + nl + e.Data + nl + e.Source,
+                "Error WH10: Unable to load", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
+        }
+        private void LoadWHInfo(WHInfo w)
+        {
+            txtWHID2.Text = w.ID.ToString();
+            txtName2.Text = w.name;
+            txtAddress2.Text = w.address;
+            txtCity2.Text = w.city;
+            txtState2.Text = w.state;
+            txtPINCode2.Text = w.PINCode;
+            txtInchargeID2.Text = w.inchargeID.ToString();
+            txtTIN2.Text = w.TIN;
+            txtGST2.Text = w.GST;
+            cmbStatus2.Text = w.status;
+        }
         // INNER CLASS
         public class WHInfo
         {
@@ -307,17 +411,16 @@ namespace ETStore.Forms
                 string crDate, int crID, string lmDate, int lmID, int isDel, int delID, string delDate, string stts)
             {
                 ID = id; name = nm; address = addr; city = cty; state = st; PINCode = PIN; inchargeID = icid;
+                TIN = tin;  GST = gst;
                 createdDate = crDate; createdBy = crID; lastModifiedDate = lmDate; lastModifiedBy = lmID;
                 isDeleted = isDel; deletedBy = delID; deletedDate = delDate; status = stts;
             }
-
             public override string ToString()
             {
                 string s = "";
-                s += ID + "; " + name + "; " + address + "; " + city + "; " + inchargeID + "; " + lastModifiedDate;
+                s += ID + "; " + name + "; " + address + "; " + city + "; " + inchargeID + "; " + lastModifiedDate + "; " + TIN + "; " + GST;
                 return s;
             }
         }
-
     }
 }
